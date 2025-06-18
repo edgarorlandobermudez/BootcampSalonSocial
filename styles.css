@@ -1,67 +1,70 @@
 /* Estilo general del cuerpo de la página */
 body {
   font-family: Arial, sans-serif; /* Fuente legible */
-  margin: 20px;                   /* Separación alrededor del contenido */
-  background-color: #f5f5f5;      /* Color de fondo suave */
+  margin: 20px; /* Separación alrededor del contenido */
+  background-color: #f5f5f5; /* Color de fondo suave */
 }
 
 /* Títulos principales */
-h1, h2 {
+h1,
+h2 {
   color: #333; /* Color de texto gris oscuro para contraste */
 }
 
 /* Cada solicitud mostrada en la lista */
 #listaSolicitudes .solicitud {
-  background-color: #fff;      /* Fondo blanco */
-  padding: 10px;               /* Espaciado interno */
-  border: 1px solid #ddd;      /* Borde gris claro */
-  margin-bottom: 10px;         /* Espaciado inferior entre tarjetas */
-  border-radius: 6px;          /* Esquinas redondeadas */
+  background-color: #fff; /* Fondo blanco */
+  padding: 10px; /* Espaciado interno */
+  border: 1px solid #ddd; /* Borde gris claro */
+  margin-bottom: 10px; /* Espaciado inferior entre tarjetas */
+  border-radius: 6px; /* Esquinas redondeadas */
 }
 
 /* Botones "Eliminar" y "Editar" */
-.eliminar, .editar {
-  color: white;                /* Texto blanco */
-  border: none;                /* Sin borde */
-  padding: 5px;                /* Espaciado interno */
-  margin-top: 5px;             /* Separación superior */
-  cursor: pointer;             /* Cursor tipo mano al pasar encima */
-  border-radius: 4px;          /* Esquinas ligeramente redondeadas */
+.eliminar,
+.editar {
+  color: white; /* Texto blanco */
+  border: none; /* Sin borde */
+  padding: 5px; /* Espaciado interno */
+  margin-top: 5px; /* Separación superior */
+  cursor: pointer; /* Cursor tipo mano al pasar encima */
+  border-radius: 4px; /* Esquinas ligeramente redondeadas */
 }
 
 /* Estilo específico para el botón Eliminar */
 .eliminar {
-  background-color: #d9534f;   /* Rojo Bootstrap */
+  background-color: #d9534f; /* Rojo Bootstrap */
 }
 
 /* Estilo específico para el botón Editar */
 .editar {
-  background-color: #0275d8;   /* Azul Bootstrap */
-  margin-left: 10px;           /* Separación del botón anterior */
+  background-color: #0275d8; /* Azul Bootstrap */
+  margin-left: 10px; /* Separación del botón anterior */
 }
 
 /* Transformar texto a mayúsculas automáticamente en inputs y textarea */
-input[type="text"], textarea {
+input[type="text"],
+textarea {
   text-transform: uppercase;
 }
 
 /* Contenedor del calendario */
 #calendar {
-  max-width: 800px;            /* Ancho máximo centrado */
-  margin: 30px auto;           /* Centrado con margen arriba/abajo */
+  max-width: 800px; /* Ancho máximo centrado */
+  margin: 30px auto; /* Centrado con margen arriba/abajo */
 }
 
 /* Eventos del calendario (FullCalendar) */
 .fc-event {
-  border-radius: 8px;          /* Bordes redondeados */
-  padding: 4px;                /* Espaciado interno */
-  font-size: 0.75rem;          /* Tamaño de fuente más pequeño */
+  border-radius: 8px; /* Bordes redondeados */
+  padding: 4px; /* Espaciado interno */
+  font-size: 0.75rem; /* Tamaño de fuente más pequeño */
 }
 
 /* Contenedor del toast (notificación flotante) */
 .toast-container {
-  position: fixed;             /* Se mantiene en posición al hacer scroll */
-  top: 1rem;                   /* Separado desde la parte superior */
-  right: 1rem;                 /* Separado desde la derecha */
-  z-index: 1055;               /* Asegura que esté por encima de otros elementos */
+  position: fixed; /* Se mantiene en posición al hacer scroll */
+  top: 1rem; /* Separado desde la parte superior */
+  right: 1rem; /* Separado desde la derecha */
+  z-index: 1055; /* Asegura que esté por encima de otros elementos */
 }

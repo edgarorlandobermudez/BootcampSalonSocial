@@ -1,13 +1,14 @@
 // Espera a que todo el contenido del DOM esté completamente cargado
 document.addEventListener("DOMContentLoaded", function () {
-
   // Referencias a los elementos del DOM
   const formulario = document.getElementById("solicitudForm");
   const lista = document.getElementById("listaSolicitudes");
   const exportarBtn = document.getElementById("exportar");
   const importarInput = document.getElementById("importar");
   const indiceEdicionInput = document.getElementById("indiceEdicion");
-  const toastSuccess = new bootstrap.Toast(document.getElementById("toastSuccess"));
+  const toastSuccess = new bootstrap.Toast(
+    document.getElementById("toastSuccess")
+  );
 
   // Muestra un mensaje de error en pantalla
   function mostrarError(mensaje) {
@@ -27,7 +28,10 @@ document.addEventListener("DOMContentLoaded", function () {
   function guardarSolicitudes(solicitudes) {
     localStorage.setItem("solicitudes", JSON.stringify(solicitudes));
     const hoy = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-    localStorage.setItem(`solicitudes_backup_${hoy}`, JSON.stringify(solicitudes));
+    localStorage.setItem(
+      `solicitudes_backup_${hoy}`,
+      JSON.stringify(solicitudes)
+    );
   }
 
   // Muestra todas las solicitudes en la sección "Solicitudes Registradas"
@@ -49,7 +53,8 @@ document.addEventListener("DOMContentLoaded", function () {
       lista.appendChild(div);
     });
 
-    document.getElementById("totalSolicitudes").textContent = solicitudes.length;
+    document.getElementById("totalSolicitudes").textContent =
+      solicitudes.length;
   }
 
   // Función global para eliminar una solicitud específica
@@ -59,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
     guardarSolicitudes(solicitudes);
     mostrarSolicitudes();
     renderizarCalendario();
-  }
+  };
 
   // Función global para cargar una solicitud al formulario para editarla
   window.editarSolicitud = function (indice) {
@@ -76,76 +81,112 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("horaFin").value = sol.horaFin;
     document.getElementById("observacion").value = sol.observacion;
     indiceEdicionInput.value = indice;
-  }
+  };
 
   // Manejo del formulario para crear o actualizar solicitudes
-formulario.addEventListener("submit", function (e) {
-  e.preventDefault();
+  formulario.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-  // Recolectar valores y formatearlos
-  const nombre = document.getElementById("nombre").value.trim().toUpperCase();
-  const apellido = document.getElementById("apellido").value.trim().toUpperCase();
-  const apartamento = document.getElementById("apartamento").value.trim().toUpperCase();
-  const fechaInicio = document.getElementById("fechaInicio").value.trim();
-  const horaInicio = document.getElementById("horaInicio").value.trim();
-  const fechaFin = document.getElementById("fechaFin").value.trim();
-  const horaFin = document.getElementById("horaFin").value.trim();
-  const observacion = document.getElementById("observacion").value.trim().toUpperCase();
-  const indiceEdicion = indiceEdicionInput.value;
+    // Recolectar valores y formatearlos
+    const nombre = document.getElementById("nombre").value.trim().toUpperCase();
+    const apellido = document
+      .getElementById("apellido")
+      .value.trim()
+      .toUpperCase();
+    const apartamento = document
+      .getElementById("apartamento")
+      .value.trim()
+      .toUpperCase();
+    const fechaInicio = document.getElementById("fechaInicio").value.trim();
+    const horaInicio = document.getElementById("horaInicio").value.trim();
+    const fechaFin = document.getElementById("fechaFin").value.trim();
+    const horaFin = document.getElementById("horaFin").value.trim();
+    const observacion = document
+      .getElementById("observacion")
+      .value.trim()
+      .toUpperCase();
+    const indiceEdicion = indiceEdicionInput.value;
 
-  if (!nombre || !apellido || !apartamento || !fechaInicio || !horaInicio || !fechaFin || !horaFin || !observacion) {
-    mostrarError("Por favor, complete todos los campos.");
-    return;
-  }
-
-  const inicio = new Date(`${fechaInicio}T${horaInicio}`);
-  const fin = new Date(`${fechaFin}T${horaFin}`);
-  const ahora = new Date();
-
-  if (inicio.getTime() < ahora.getTime() + 3600000) {
-    mostrarError("La hora de inicio debe ser al menos una hora en el futuro.");
-    return;
-  }
-
-  if (fin <= inicio) {
-    mostrarError("La fecha y hora de fin debe ser posterior a la de inicio.");
-    return;
-  }
-
-  const solicitudes = obtenerSolicitudes().filter(Boolean);
-
-  // Validar traslape de fechas y horas con otras solicitudes
-  for (const existente of solicitudes) {
-    const existenteInicio = new Date(`${existente.fechaInicio}T${existente.horaInicio}`);
-    const existenteFin = new Date(`${existente.fechaFin}T${existente.horaFin}`);
-    const seTraslapa = inicio < existenteFin && fin > existenteInicio;
-    const esLaMisma = parseInt(indiceEdicion) === solicitudes.indexOf(existente);
-
-    if (seTraslapa && !esLaMisma) {
-      mostrarError("Ya existe una reserva en ese rango de fecha y hora.");
+    if (
+      !nombre ||
+      !apellido ||
+      !apartamento ||
+      !fechaInicio ||
+      !horaInicio ||
+      !fechaFin ||
+      !horaFin ||
+      !observacion
+    ) {
+      mostrarError("Por favor, complete todos los campos.");
       return;
     }
-  }
 
-  const nuevaSolicitud = { nombre, apellido, apartamento, fechaInicio, horaInicio, fechaFin, horaFin, observacion };
+    const inicio = new Date(`${fechaInicio}T${horaInicio}`);
+    const fin = new Date(`${fechaFin}T${horaFin}`);
+    const ahora = new Date();
 
-  if (!isNaN(parseInt(indiceEdicion))) {
-    solicitudes[parseInt(indiceEdicion)] = nuevaSolicitud;
-    indiceEdicionInput.value = "";
-  } else {
-    solicitudes.push(nuevaSolicitud);
-  }
+    if (inicio.getTime() < ahora.getTime() + 3600000) {
+      mostrarError(
+        "La hora de inicio debe ser al menos una hora en el futuro."
+      );
+      return;
+    }
 
-  guardarSolicitudes(solicitudes);
-  formulario.reset();
-  mostrarSolicitudes();
-  renderizarCalendario();
-});
+    if (fin <= inicio) {
+      mostrarError("La fecha y hora de fin debe ser posterior a la de inicio.");
+      return;
+    }
+
+    const solicitudes = obtenerSolicitudes().filter(Boolean);
+
+    // Validar traslape de fechas y horas con otras solicitudes
+    for (const existente of solicitudes) {
+      const existenteInicio = new Date(
+        `${existente.fechaInicio}T${existente.horaInicio}`
+      );
+      const existenteFin = new Date(
+        `${existente.fechaFin}T${existente.horaFin}`
+      );
+      const seTraslapa = inicio < existenteFin && fin > existenteInicio;
+      const esLaMisma =
+        parseInt(indiceEdicion) === solicitudes.indexOf(existente);
+
+      if (seTraslapa && !esLaMisma) {
+        mostrarError("Ya existe una reserva en ese rango de fecha y hora.");
+        return;
+      }
+    }
+
+    const nuevaSolicitud = {
+      nombre,
+      apellido,
+      apartamento,
+      fechaInicio,
+      horaInicio,
+      fechaFin,
+      horaFin,
+      observacion,
+    };
+
+    if (!isNaN(parseInt(indiceEdicion))) {
+      solicitudes[parseInt(indiceEdicion)] = nuevaSolicitud;
+      indiceEdicionInput.value = "";
+    } else {
+      solicitudes.push(nuevaSolicitud);
+    }
+
+    guardarSolicitudes(solicitudes);
+    formulario.reset();
+    mostrarSolicitudes();
+    renderizarCalendario();
+  });
 
   // Exporta las solicitudes a un archivo JSON
   exportarBtn.addEventListener("click", function () {
     const solicitudes = obtenerSolicitudes().filter(Boolean);
-    const blob = new Blob([JSON.stringify(solicitudes, null, 2)], { type: "application/json" });
+    const blob = new Blob([JSON.stringify(solicitudes, null, 2)], {
+      type: "application/json",
+    });
     const url = URL.createObjectURL(blob);
 
     const a = document.createElement("a");
@@ -169,7 +210,9 @@ formulario.addEventListener("submit", function (e) {
           renderizarCalendario();
           toastSuccess.show(); // muestra mensaje "importado correctamente"
         } catch (error) {
-          mostrarError("Error al leer el archivo. Asegúrese de que sea un JSON válido.");
+          mostrarError(
+            "Error al leer el archivo. Asegúrese de que sea un JSON válido."
+          );
         }
       };
       reader.readAsText(file);
@@ -179,33 +222,33 @@ formulario.addEventListener("submit", function (e) {
   // Dibuja el calendario con los eventos cargados
   function renderizarCalendario() {
     const solicitudes = obtenerSolicitudes();
-    const eventos = solicitudes.map(sol => ({
+    const eventos = solicitudes.map((sol) => ({
       title: `👤 ${sol.nombre} ${sol.apellido}\n🏢 ${sol.apartamento}\n🕒 ${sol.horaInicio} - ${sol.horaFin}\n📌 ${sol.observacion}`,
       start: `${sol.fechaInicio}T${sol.horaInicio}`,
       end: `${sol.fechaFin}T${sol.horaFin}`,
-      backgroundColor: '#ff6b6b',
-      borderColor: '#ff4757',
-      textColor: '#ffffff'
+      backgroundColor: "#ff6b6b",
+      borderColor: "#ff4757",
+      textColor: "#ffffff",
     }));
 
-    const calendarEl = document.getElementById('calendar');
+    const calendarEl = document.getElementById("calendar");
     calendarEl.innerHTML = ""; // limpia el contenedor
 
     const calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
+      initialView: "dayGridMonth",
       events: eventos,
-      eventDisplay: 'block',
+      eventDisplay: "block",
       eventContent: function (arg) {
-        const lines = arg.event.title.split('\n');
-        const customHtml = lines.map(line => `<div>${line}</div>`).join('');
+        const lines = arg.event.title.split("\n");
+        const customHtml = lines.map((line) => `<div>${line}</div>`).join("");
         return { html: customHtml };
       },
       headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: ''
+        left: "prev,next today",
+        center: "title",
+        right: "",
       },
-      height: 'auto'
+      height: "auto",
     });
 
     calendar.render();
