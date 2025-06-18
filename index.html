@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<!-- Declaración del tipo de documento, en este caso HTML5 -->
+<html lang="es">
+<!-- Inicio del documento HTML en español -->
+
+<head>
+  <meta charset="UTF-8">
+  <!-- Define la codificación de caracteres como UTF-8 (compatible con caracteres latinos) -->
+
+  <title>Solicitudes Salón Social</title>
+  <!-- Título que aparece en la pestaña del navegador -->
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Importa el CSS de Bootstrap para dar estilos modernos y responsivos -->
+
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" rel="stylesheet">
+  <!-- Importa el CSS de FullCalendar para mostrar un calendario bonito -->
+
+  <link href="styles.css" rel="stylesheet">
+  <!-- Enlace a tu hoja de estilos personalizada -->
+</head>
+
+<body class="bg-light">
+<!-- Cuerpo de la página con fondo claro (clase de Bootstrap) -->
+
+<div class="container">
+  <!-- Contenedor central con márgenes automáticos -->
+
+  <h1 class="text-center my-4">Registro de Solicitudes - Salón Social</h1>
+  <!-- Título principal centrado con margen vertical -->
+
+  <div id="mensajeError" class="alert alert-danger d-none" role="alert"></div>
+  <!-- Div oculto para mostrar errores al usuario en rojo -->
+
+  <div class="toast-container">
+    <!-- Contenedor de toasts (notificaciones pequeñas en pantalla) -->
+    <div id="toastSuccess" class="toast align-items-center text-bg-success border-0" role="alert">
+      <div class="d-flex">
+        <div class="toast-body">Solicitudes importadas correctamente ✅</div>
+        <!-- Mensaje de éxito al importar solicitudes -->
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        <!-- Botón para cerrar el toast -->
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow-sm mb-4">
+    <!-- Tarjeta con sombra y margen inferior -->
+    <div class="card-body">
+      <!-- Cuerpo de la tarjeta -->
+      <form id="solicitudForm">
+        <!-- Formulario principal para ingresar una solicitud -->
+
+        <input type="hidden" id="indiceEdicion">
+        <!-- Campo oculto para saber si se está editando una solicitud existente -->
+
+        <!-- Campo para el nombre -->
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre del residente</label>
+          <input type="text" id="nombre" class="form-control" required autofocus>
+        </div>
+
+        <!-- Campo para el apellido -->
+        <div class="mb-3">
+          <label for="apellido" class="form-label">Apellido del residente</label>
+          <input type="text" id="apellido" class="form-control" required>
+        </div>
+
+        <!-- Campo para el apartamento -->
+        <div class="mb-3">
+          <label for="apartamento" class="form-label">Número de apartamento</label>
+          <input type="text" id="apartamento" class="form-control" required>
+        </div>
+
+        <!-- Fechas y horas de inicio -->
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="fechaInicio" class="form-label">Fecha de inicio</label>
+            <input type="date" id="fechaInicio" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label for="horaInicio" class="form-label">Hora de inicio</label>
+            <input type="time" id="horaInicio" class="form-control" required>
+          </div>
+        </div>
+
+        <!-- Fechas y horas de fin -->
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="fechaFin" class="form-label">Fecha de fin</label>
+            <input type="date" id="fechaFin" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label for="horaFin" class="form-label">Hora de fin</label>
+            <input type="time" id="horaFin" class="form-control" required>
+          </div>
+        </div>
+
+        <!-- Campo de observación -->
+        <div class="mb-3">
+          <label for="observacion" class="form-label">Observación</label>
+          <textarea id="observacion" class="form-control" required></textarea>
+        </div>
+
+        <!-- Botón para guardar la solicitud -->
+        <button type="submit" class="btn btn-primary w-100">Guardar Solicitud</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Botones para exportar/importar solicitudes -->
+  <div class="text-center mb-4 d-flex justify-content-center gap-3">
+    <button id="exportar" class="btn btn-success">Exportar Solicitudes</button>
+    <label class="btn btn-secondary mb-0">
+      Importar Solicitudes
+      <input type="file" id="importar" accept=".json" hidden>
+    </label>
+  </div>
+
+  <!-- Calendario -->
+  <h2 class="text-center">Fechas Ocupadas</h2>
+  <div id="calendar"></div>
+
+  <!-- Lista de solicitudes -->
+  <h2 class="text-center">Solicitudes Registradas</h2>
+  <div id="listaSolicitudes" class="mt-4"></div>
+  <p class="text-center mt-3"><strong>Total:</strong> <span id="totalSolicitudes">0</span></p>
+</div>
+
+<!-- Scripts externos necesarios -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap JS para funcionalidades como los toasts -->
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+<!-- FullCalendar JS para mostrar el calendario -->
+
+<script src="logic.js"></script>
+<!-- Archivo con toda la lógica del sistema -->
+</body>
+</html>
